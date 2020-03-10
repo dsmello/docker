@@ -39,6 +39,7 @@ memory_limit=-1\n\
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /tmp
 ENV COMPOSER_VERSION 1.9.3
+ENV COMPOSER_CACHE_DIR /tmp
 
 RUN set -eux; \
   curl --silent --fail --location --retry 3 --output /tmp/installer.php --url https://raw.githubusercontent.com/composer/getcomposer.org/cb19f2aa3aeaa2006c0cd69a7ef011eb31463067/web/installer; \
@@ -54,6 +55,8 @@ RUN set -eux; \
   composer --ansi --version --no-interaction; \
   rm -f /tmp/installer.php; \
   find /tmp -type d -exec chmod -v 1777 {} +
+
+RUN composer global require hirak/prestissimo
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
